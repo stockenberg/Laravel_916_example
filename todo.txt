@@ -1,0 +1,5 @@
+1. Wiederholung
+2. Beenden des Update beispiels
+3. Query Builder
+4. Eloquent Relationships
+5. Session
