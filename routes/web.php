@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 })->name('homepage');
 
+
 Route::get('/news/delete/{id}', function ($id) {
 
 	$news = \App\News::find($id);
@@ -28,36 +29,47 @@ Route::get('/news/delete/{id}', function ($id) {
 
 })->name('news.delete');
 
-Route::get('/products', [
-	'uses' => "ProductsController@index",
-	'as'   => "products",
-]);
+/*Route::group(['prefix' => "test"], function () {
+	Route::get('/home', 'HomeController@index')->name('home');
+});*/
 
-Route::get('/products/delete/{id}', [
-	'uses' => "ProductsController@destroy",
-	'as'   => "products.delete",
-]);
+Route::get('/test', 'NewsController@index');
 
-Route::get('/products/create', [
-	'uses' => 'ProductsController@create',
-	'as'   => 'products.create',
-]);
 
-Route::get('/products/edit/{id}', [
-	'uses' => 'ProductsController@edit',
-	'as'   => 'products.edit',
-]);
+Route::prefix('products')->group(function () {
 
-Route::post('/products/update/{id}', [
-	'uses' => 'ProductsController@update',
-	'as'   => 'products.update',
-]);
+	Route::get('/', [
+		'uses' => "ProductsController@index",
+		'as'   => "products",
+	]);
 
-Route::post('/products/store', [
-	'uses' => 'ProductsController@store',
-	'as'   => 'products.store',
-]);
+	Route::get('/delete/{id}', [
+		'uses' => "ProductsController@destroy",
+		'as'   => "products.delete",
+	]);
+
+	Route::get('/create', [
+		'uses' => 'ProductsController@create',
+		'as'   => 'products.create',
+	]);
+
+	Route::get('/edit/{id}', [
+		'uses' => 'ProductsController@edit',
+		'as'   => 'products.edit',
+	]);
+
+	Route::post('/update/{id}', [
+		'uses' => 'ProductsController@update',
+		'as'   => 'products.update',
+	]);
+
+	Route::post('/store', [
+		'uses' => 'ProductsController@store',
+		'as'   => 'products.store',
+	]);
+});
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
