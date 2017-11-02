@@ -27,6 +27,17 @@
         <ul class="nav navbar-nav">
             <li class=""><a href="{{route   ('products')}}">Alle Produkte</a></li>
             <li class=""><a href="{{route('products.create')}}">Produkt Erstellen</a></li>
+            <li>
+                <a href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </li>
             <li><a href="#">Link</a></li>
         </ul>
         <form class="navbar-form navbar-left" role="search">

@@ -3,7 +3,7 @@
 @section('pageTitle', 'Produkte')
 
 @section('main')
-
+    <h2>{{\Illuminate\Support\Facades\Auth::guard('admin')->check() ? 'Huhuh' : 'Nicht eingeloggt'}}</h2>
     <div class="jumbotron">
         <div class="container">
             <h1>Das ist meine Produktseite</h1>
@@ -21,14 +21,18 @@
             <section class="panel-body">
                 <h2>{{$product->title}}</h2>
                 <p>{{$product->price}}</p>
-                <footer>{{$product->created_at}}
-                    <hr>
-                    <a href="{{route('products.delete', ['id' => $product->id]) }}" class="btn btn-danger">
-                        Löschen!
-                    </a>
-                    <a href="{{route('products.edit', ['id' => $product->id])}}" class="btn btn-warning">Edit!</a>
-                </footer>
+
+                @if(\Illuminate\Support\Facades\Auth::guard('admin')->check())
+                    <footer>{{$product->created_at}}
+                        <hr>
+                        <a href="{{route('products.delete', ['id' => $product->id]) }}" class="btn btn-danger">
+                            Löschen!
+                        </a>
+                        <a href="{{route('products.edit', ['id' => $product->id])}}" class="btn btn-warning">Edit!</a>
+                    </footer>
+                @endif
             </section>
+
         </div>
     @endforeach
 

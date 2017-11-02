@@ -33,7 +33,11 @@ Route::get('/news/delete/{id}', function ($id) {
 	Route::get('/home', 'HomeController@index')->name('home');
 });*/
 
-Route::get('/test', 'NewsController@index');
+Route::group(['middleware' => 'auth:admin'], function () {
+	Route::get('/test', 'NewsController@index');
+});
+
+
 
 
 Route::prefix('products')->group(function () {
@@ -43,32 +47,40 @@ Route::prefix('products')->group(function () {
 		'as'   => "products",
 	]);
 
-	Route::get('/delete/{id}', [
-		'uses' => "ProductsController@destroy",
-		'as'   => "products.delete",
-	]);
+	Route::group(['middleware' => ['auth', 'auth:admin']], function () {
 
-	Route::get('/create', [
-		'uses' => 'ProductsController@create',
-		'as'   => 'products.create',
-	]);
+		Route::get('/delete/{id}', [
+			'uses' => "ProductsController@destroy",
+			'as'   => "products.delete",
+		]);
 
-	Route::get('/edit/{id}', [
-		'uses' => 'ProductsController@edit',
-		'as'   => 'products.edit',
-	]);
+		Route::get('/create', [
+			'uses' => 'ProductsController@create',
+			'as'   => 'products.create',
+		]);
 
-	Route::post('/update/{id}', [
-		'uses' => 'ProductsController@update',
-		'as'   => 'products.update',
-	]);
+		Route::get('/edit/{id}', [
+			'uses' => 'ProductsController@edit',
+			'as'   => 'products.edit',
+		]);
 
-	Route::post('/store', [
-		'uses' => 'ProductsController@store',
-		'as'   => 'products.store',
-	]);
+		Route::post('/update/{id}', [
+			'uses' => 'ProductsController@update',
+			'as'   => 'products.update',
+		]);
+
+		Route::post('/store', [
+			'uses' => 'ProductsController@store',
+			'as'   => 'products.store',
+		]);
+
+	});
+
+
 });
 
+Route::get('admin/login', 'Admin\LoginController@showLoginForm')->name('admin.login');
+Route::post('admin/login', 'Admin\LoginController@login')->name('admin.post.login');
 
 Auth::routes();
 
